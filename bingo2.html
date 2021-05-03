@@ -30,13 +30,27 @@
 	var end=0
 	var click=0
   var count=1
-  var check = new Array(7)
+  var check = new Array(7);
   for (var i=0;i<7;i++){
     check[i]= new Array(7);
   }
   for (i=0;i<7;i++){
     for (j=0;j<7;j++){
       check[i][j]=0
+    }
+  }
+var xy=new Array(7);
+	for (i=0;i<7;i++){
+    xy[i]= new Array(7);
+  }
+	for (i=1;i<=5;i++){
+    for (j=1;j<=5;j++){
+      xy[i][j]=-1
+    }
+  }
+	for (i=2;i<=4;i++){
+    for (j=2;j<=4;j++){
+      xy[i][j]=1
     }
   }
  function update_check_mini(){
@@ -235,19 +249,12 @@
     $("#table").show();
 		$("#count_section").show();
 
-		same=0
 		while(1){
 			xx1 = generateRandom(1, 5)
 			yy1 = generateRandom(1, 5)
 			xx2 = generateRandom(1, 5)
 			yy2 = generateRandom(1, 5)
-			if (xx1==xx2 && yy1==yy2){
-				same=1
-			}
-			else {
-				same=0
-			}
-			if (same==0){
+			if (xy[xx1][yy1]!=xy[xx2][yy2]){
 				break
 			}
 		}
