@@ -19,7 +19,7 @@
 
  }
  .cs{
-display: flex;
+	 display: flex;
 	    justify-content: center;
 	    align-items: center;
  }
@@ -30,13 +30,27 @@ display: flex;
 	var end=0
 	var click=0
   var count=1
-  var check = new Array(7)
+  var check = new Array(7);
   for (var i=0;i<7;i++){
     check[i]= new Array(7);
   }
   for (i=0;i<7;i++){
     for (j=0;j<7;j++){
       check[i][j]=0
+    }
+  }
+var xy=new Array(7);
+	for (i=0;i<7;i++){
+    xy[i]= new Array(7);
+  }
+	for (i=1;i<=5;i++){
+    for (j=1;j<=5;j++){
+      xy[i][j]=-1
+    }
+  }
+	for (i=2;i<=4;i++){
+    for (j=2;j<=4;j++){
+      xy[i][j]=1
     }
   }
  function update_check_mini(){
@@ -49,7 +63,7 @@ display: flex;
 
  }
   function check_bingo(){
-    for(i=1;i<=5;i++){
+    for(i=1;i<=5;i++){ /*가로*/
       cnt=0
       for(j=1;j<=5;j++){
         if (check[i][j]>=1){
@@ -64,7 +78,7 @@ display: flex;
         }
       }
     }
-    for(i=1;i<=5;i++){
+    for(i=1;i<=5;i++){ /*세로*/
       cnt=0
       for(j=1;j<=5;j++){
         if (check[j][i]>=1){
@@ -79,33 +93,32 @@ display: flex;
         }
       }
     }
+		//대각
+		if (check[1][1]>=1 && check[2][2]>=1 && check[3][3]>=1 && check[4][4]>=1 && check[5][5]>=1){
+			for(i=1;i<=5;i++){
+				j=i
+				document.images["table" + i + j].src = 'red.png';
+				if (check[i][j]!=3){
+					check[i][j]=2
+				}
+			}
+		}
+		if (check[1][5]>=1 && check[2][4]>=1 && check[3][3]>=1 && check[4][2]>=1 && check[5][1]>=1){
+			for(i=1;i<=5;i++){
+				j=6-i
+				document.images["table" + i + j].src = 'red.png';
+				if (check[i][j]!=3){
+					check[i][j]=2
+				}
+			}
+		}
+
   }
 
 	function check_third_bingo(){
 		flag=0
 		if ((count-1)%3==0){
 
-			/*for(i=1;i<=5;i++){
-	      cnt=0
-	      for(j=1;j<=5;j++){
-	        if (check[i][j]==2){
-	          cnt+=1}
-	      }
-	      if (cnt==5){
-	        flag=1
-	      }
-	    }
-	    for(i=1;i<=5;i++){
-	      cnt=0
-	      for(j=1;j<=5;j++){
-	        if (check[j][i]==2){
-	          cnt+=1}
-	      }
-	      if (cnt==5){
-	        flag=1
-	      }
-	    }
-			*/
 			for(i=1;i<=5;i++){
 				for(j=1;j<=5;j++){
 					if (check[i][j]==2){
@@ -121,6 +134,7 @@ display: flex;
 		}
 
 	}
+
 	function check_value_update(){
 		for(i=1;i<=5;i++){
       cnt=0
@@ -146,37 +160,23 @@ display: flex;
         }
       }
     }
+		//대각
+		if (check[1][1]>=2 && check[2][2]>=2 && check[3][3]>=2 && check[4][4]>=2 && check[5][5]>=2){
+			for(i=1;i<=5;i++){
+				j=i
+					check[i][j]=3
+			}
+		}
+		if (check[1][5]>=2 && check[2][4]>=2 && check[3][3]>=2 && check[4][2]>=2 && check[5][1]>=2){
+			for(i=1;i<=5;i++){
+				j=6-i
+					check[i][j]=3
+			}
+		}
+
 	}
 
-	function Timer(){
-		time=28
-		t = setInterval(function(){
-			document.getElementById("timer").style.color = 'black'
-			document.getElementById("timer").innerHTML = time
-			time-=1
-			if(time<5){
-				click=1
-				document.getElementById("timer").style.color = 'blue'
-			}
-			else{
-				click=0
-			}
-			if (time<0){
-				if (end==1){
-					clearInterval(t);
-				}
-				time=28
-				//clearInterval(t);
-				document.getElementById("timer").style.color = 'red'
-				document.getElementById("timer").innerHTML = '펑'
-			}
 
-		},1000);
-		/*setTimeout(function(){
-			date = new Date();
-			document.getElementById("timer").innerHTML = date.toString();
-		},3000);*/
-	}
   function show(i,j) {
 		if(end!=1){
     count=count+1
@@ -245,25 +245,16 @@ display: flex;
   }
 
   function game_start(){
-		//Timer(); //일단 넣어봄. 실전모드에만 추가
     $("#start").hide();
     $("#table").show();
 		$("#count_section").show();
 
-    //랜덤의 두 폭탄, 두개 겹치지 않게 수정?
-		same=0
 		while(1){
 			xx1 = generateRandom(1, 5)
 			yy1 = generateRandom(1, 5)
 			xx2 = generateRandom(1, 5)
 			yy2 = generateRandom(1, 5)
-			if (xx1==xx2 && yy1==yy2){
-				same=1
-			}
-			else {
-				same=0
-			}
-			if (same==0){
+			if (xy[xx1][yy1]!=xy[xx2][yy2]){
 				break
 			}
 		}
