@@ -22,6 +22,11 @@
         margin-left: 30%;
     }
 
+    #inanna {
+        font-size: 20pt;
+        margin-left: 30%;
+    }
+
     .st {
         position: absolute;
         top: 50%;
@@ -56,6 +61,7 @@
     var end = 0
     var click = 0
     var count = 1
+    var inn = 0
     var save = new Array(200); //뒤로가기 저장공간
     var l = -1
     var check = new Array(7); //실질 보스
@@ -146,6 +152,13 @@
 
     }
 
+    function inn_count() {
+        if (count % 3 == 0) { //3의 배수때만 이용 가능
+            inn = 1;
+            document.getElementById("inanna").style.color = 'red';
+        }
+    }
+
     function check_bingo() {
         for (i = 1; i <= 5; i++) { /*가로*/
             cnt = 0
@@ -213,9 +226,18 @@
                 }
             }
             if (flag == 0) {
+                if (inn == 1) { //이난나 방어
+                    inn = 0;
+                    document.getElementById("inanna").style.color = 'black';
+                    return;
+                }
                 document.getElementById("count").style.color = 'red'
                 document.getElementById("count").innerHTML = 'GAMEOVER';
                 end = 1
+            }
+            if (inn == 1) { //이난나 쓰려고 했는데 빙고를 성공해버린 경우... 어차피 빨간색으로 성공해버린 걸 알 수 있기 때문에 이난나 끔
+                inn = 0;
+                document.getElementById("inanna").style.color = 'black';
             }
         }
 
@@ -367,6 +389,7 @@
 <div id="page" style="display:none;">
     <h1 id="count" style="color:black"> 1번째 폭탄 </h1>
     <img id="back" src="back.png" style="width:100px;height:100px;cursor:pointer;" onclick="undo_check()">
+    <button id="inanna" onclick="inn_count()">이난나</button>
     <table id="main-table" border>
         <tr>
             <td><img name="table00" onclick="show(0,0)" style="display:none" style="cursor:pointer" src='no.png'
@@ -501,7 +524,7 @@
     <a href="http://www.inven.co.kr/board/lostark/4821/77218">http://www.inven.co.kr/board/lostark/4821/77218</a><br><br>
     [버전1] 기본<br>
     <a href="https://verandaaa.github.io/lostark-test/bingo">https://verandaaa.github.io/lostark-test/bingo</a><br><br>
-    [버전2] 버전1 + 뒤로가기 (테스트중)<br>
+    [버전2] 버전1 + 뒤로가기 + 이난나 (테스트중)<br>
     <a href="https://verandaaa.github.io/lostark-test/bingo2">https://verandaaa.github.io/lostark-test/bingo2</a><br><br>
     [버전3] 버전1 + 게임오버 없는 무한빙고<br>
     <a href="https://verandaaa.github.io/lostark-test/bingo3">https://verandaaa.github.io/lostark-test/bingo3</a><br><br>
